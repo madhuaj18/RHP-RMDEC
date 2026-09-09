@@ -1,37 +1,44 @@
 //leetcode 155
 
 class MinStack {
-public:
-    Stack<pair<int, int> st;
+    Deque<Integer> stack = new ArrayDeque<>();
+    double minval;// = Math.pow(2,-31);
 
-    MinStack() {
-        
+    public MinStack() {
+        minval = Math.pow(2,31);
     }
     
-    void push(int value) {
-        int minval = value;
-        minval = min(value, getMin());
-        st.push(value, minval);
+    public void push(int value) {
+        stack.push(value);
+        if(minval>value){
+            minval=value;
+        }
     }
     
-    void pop() {
-        
+    public void pop() {
+        if(minval == stack.pop()){
+            minval=Math.pow(2, 31);
+            for(int a: stack){
+                minval = (minval>a)? a: minval;
+            }
+        }
+
     }
     
-    int top() {
-        
+    public int top() {
+        return stack.peek();
     }
     
-    int getMin() {
-        
+    public int getMin() {
+        return (int)minval;
     }
-};
+}
 
 /**
  * Your MinStack object will be instantiated and called as such:
- * MinStack* obj = new MinStack();
- * obj->push(value);
- * obj->pop();
- * int param_3 = obj->top();
- * int param_4 = obj->getMin();
+ * MinStack obj = new MinStack();
+ * obj.push(value);
+ * obj.pop();
+ * int param_3 = obj.top();
+ * int param_4 = obj.getMin();
  */
